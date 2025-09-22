@@ -53,6 +53,15 @@ function App() {
             </div>
           </div>
 
+          <div className="p-4 flex items-center justify-between text-sm text-gray-500 border-t border-gray-700">
+            <span>2 items left</span>
+            <div className="flex gap-4">
+              <button className="text-blue-400 hover:text-white">All</button>
+              <button className="hover:text-white">Active</button>
+              <button className="hover:text-white">Completed</button>
+            </div>
+            <button className="hover:text-white">Clear Completed</button>
+          </div>
         </div>
 
       </div>
