@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import { ThemeContext } from './context/themeContext';
 import type { ITodoItem, TStatus } from "./types";
 import TodoItem from './components/TodoItem';
+import Header from './components/Header';
 
 const DELETE_ME: ITodoItem[] = [
   { id: 0, title: "Complete online JavaScript course", status: "done" },
@@ -13,7 +14,7 @@ const DELETE_ME: ITodoItem[] = [
 ];
 
 function App() {
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
   const [newItem, setNewItem] = useState("");
   const [items, setItems] = useState<ITodoItem[]>(DELETE_ME);
   const [showItems, setShowItems] = useState<TStatus | 'all'>('all');
@@ -78,19 +79,10 @@ function App() {
       }}
     >
       <div className="min-h-screen flex flex-col items-center pt-16 px-6">
-        {/* Header */}
-        <div className="w-full max-w-md flex justify-between items-center mb-8">
-          <h1 className="text-white text-4xl font-bold tracking-[0.5em]">TODO</h1>
-          <div className="w-6 h-6 cursor-pointer hover:scale-110 transition-transform" onClick={toggleTheme}>
-            <img 
-              src={theme === "dark" ? "/icon-sun.svg" : "/icon-moon.svg"} 
-              alt="Toggle theme" 
-              className="w-full h-full" 
-            />
-          </div>
-        </div>
 
-        {/* Add Todo Input */}
+        <Header />
+
+        {/* Add new item, TODO: move to component */}
         <div className="w-full max-w-md mb-6">
           <div className={`${styles.card} rounded-lg p-4 flex items-center gap-4 shadow-lg`}>
             <div
@@ -117,21 +109,21 @@ function App() {
             {items
               .filter(item => showItems === 'all' || item.status === showItems)
               .map(item => (
-                <TodoItem 
-                  key={item.id} 
-                  item={item} 
-                  checkItem={checkItem} 
-                  uncheckItem={uncheckItem} 
-                  deleteItem={deleteItem} 
+                <TodoItem
+                  key={item.id}
+                  item={item}
+                  checkItem={checkItem}
+                  uncheckItem={uncheckItem}
+                  deleteItem={deleteItem}
                 />
               ))
             }
           </div>
 
-          {/* Footer */}
+          {/* Footer, TODO: move to component */}
           <div className={`p-4 flex items-center justify-between text-sm ${styles.textMuted} ${styles.border} border-t`}>
             <span>{items.filter(item => item.status === 'active').length} items left</span>
-            
+
             <div className="flex gap-4">
               <button className={getFilterStyle('all')} onClick={() => setShowItems('all')}>
                 All
@@ -143,7 +135,7 @@ function App() {
                 Completed
               </button>
             </div>
-            
+
             <button className={`${styles.hover} cursor-pointer`} onClick={clearCompletedItems}>
               Clear Completed
             </button>
