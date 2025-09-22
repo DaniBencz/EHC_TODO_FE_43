@@ -1,7 +1,9 @@
+export type TStatus = 'active' | 'done';
+
 export interface ITodoItem {
   id: number;
   title: string;
-  status: 'active' | 'done';
+  status: TStatus;
 }
 
 export type TCheckItem = (id: number) => void;
