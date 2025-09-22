@@ -3,20 +3,12 @@ import { ThemeContext } from './context/themeContext';
 import type { ITodoItem, TStatus } from "./types";
 import TodoItem from './components/TodoItem';
 import Header from './components/Header';
-
-const DELETE_ME: ITodoItem[] = [
-  { id: 0, title: "Complete online JavaScript course", status: "done" },
-  { id: 1, title: "Jog around the park 3x", status: "active" },
-  { id: 2, title: "10 minutes meditation", status: "done" },
-  { id: 3, title: "Read for 1 hour", status: "active" },
-  { id: 4, title: "Pick up groceries", status: "active" },
-  { id: 5, title: "Complete Todo App on Frontend Mentor", status: "active" }
-];
+import FilterButtons from './components/FilterButtons';
 
 function App() {
   const { theme } = useContext(ThemeContext);
   const [newItem, setNewItem] = useState("");
-  const [items, setItems] = useState<ITodoItem[]>(DELETE_ME);
+  const [items, setItems] = useState<ITodoItem[]>([]);
   const [showItems, setShowItems] = useState<TStatus | 'all'>('all');
 
   const styles = {
@@ -30,13 +22,6 @@ function App() {
     inputBorder: theme === "dark" ? "border-gray-500 hover:border-blue-400" : "border-gray-300 hover:border-blue-500",
     hover: theme === "dark" ? "hover:text-white" : "hover:text-gray-800",
     addButton: theme === "dark" ? "text-gray-400" : "text-gray-400"
-  };
-
-  const getFilterStyle = (filter: TStatus | 'all') => {
-    const isActive = showItems === filter;
-    const baseStyle = isActive ? "text-blue-500" : styles.textMuted;
-    const hoverStyle = isActive ? "" : styles.hover;
-    return `${baseStyle} ${hoverStyle} cursor-pointer`;
   };
 
   const addItem = () => {
@@ -120,26 +105,29 @@ function App() {
             }
           </div>
 
-          {/* Footer, TODO: move to component */}
+          {/* Footer */}
           <div className={`p-4 flex items-center justify-between text-sm ${styles.textMuted} ${styles.border} border-t`}>
             <span>{items.filter(item => item.status === 'active').length} items left</span>
 
-            <div className="flex gap-4">
-              <button className={getFilterStyle('all')} onClick={() => setShowItems('all')}>
-                All
-              </button>
-              <button className={getFilterStyle('active')} onClick={() => setShowItems('active')}>
-                Active
-              </button>
-              <button className={getFilterStyle('done')} onClick={() => setShowItems('done')}>
-                Completed
-              </button>
-            </div>
+            <FilterButtons 
+              showItems={showItems} 
+              onFilterChange={setShowItems} 
+              className="hidden md:flex" 
+            />
 
             <button className={`${styles.hover} cursor-pointer`} onClick={clearCompletedItems}>
               Clear Completed
             </button>
           </div>
+
+        </div>
+        
+        {/* Mobile Filter Buttons */}
+        <div className={`p-4 flex items-center justify-center text-sm ${styles.textMuted} ${styles.border} md:hidden`}>
+          <FilterButtons 
+            showItems={showItems} 
+            onFilterChange={setShowItems} 
+          />
         </div>
       </div>
     </div>
