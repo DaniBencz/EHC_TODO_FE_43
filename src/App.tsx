@@ -1,11 +1,14 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { ThemeContext } from './context/themeContext';
 
 function App() {
+  const { theme, toggleTheme } = useContext(ThemeContext);
+
   return (
     <div
       className="min-h-screen bg-gray-900 bg-top bg-no-repeat"
       style={{
-        backgroundImage: "url('/bg-desktop-dark.jpg')"
+        backgroundImage: theme === "light" ? "url('/bg-desktop-light.jpg')" : "url('/bg-desktop-dark.jpg')"
       }}
     >
 
@@ -14,8 +17,8 @@ function App() {
         {/* Header */}
         <div className="w-full max-w-md flex justify-between items-center mb-8">
           <h1 className="text-white text-4xl font-bold tracking-[0.5em]">TODO</h1>
-          <div className="w-6 h-6 cursor-pointer">
-            <img src="/icon-sun.svg" alt="Toggle theme" className="w-full h-full" />
+          <div className="w-6 h-6 cursor-pointer" onClick={toggleTheme}>
+            <img src={theme === "dark" ? "/icon-sun.svg" : "/icon-moon.svg"} alt="Toggle theme" className="w-full h-full" />
           </div>
         </div>
 
