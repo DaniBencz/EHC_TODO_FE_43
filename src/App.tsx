@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { ThemeContext } from './context/themeContext';
-import type { ITodoItem, TStatus } from "./types";
-import { addTodo } from './utils/todoUtils';
+import type { TStatus } from "./types";
+import { useTodos } from './hooks/useTodos';
 import TodoItem from './components/TodoItem';
 import Header from './components/Header';
 import FilterButtons from './components/FilterButtons';
@@ -9,8 +9,16 @@ import FilterButtons from './components/FilterButtons';
 function App() {
   const { theme } = useContext(ThemeContext);
   const [newItem, setNewItem] = useState("");
-  const [items, setItems] = useState<ITodoItem[]>([]);
   const [showItems, setShowItems] = useState<TStatus | 'all'>('all');
+  const {
+    addItem,
+    checkItem,
+    uncheckItem,
+    deleteItem,
+    clearCompletedItems,
+    getFilteredItems,
+    getActiveCount,
+  } = useTodos();
 
   const styles = {
     background: theme === "dark" ? "bg-gray-900" : "bg-gray-100",
@@ -25,30 +33,13 @@ function App() {
     addButton: theme === "dark" ? "text-gray-400" : "text-gray-400"
   };
 
-  const addItem = () => {
-    try {
-      const updatedItems = addTodo(newItem, items);
-      setItems(updatedItems);
+  const handleAddItem = () => {
+    const result = addItem(newItem);
+    if (result.success) {
       setNewItem("");
-    } catch (error) {
-      alert(error instanceof Error ? error.message : "Error adding item");
+    } else {
+      alert(result.error);
     }
-  };
-
-  const checkItem = (id: number) => {
-    setItems(items.map(item => item.id === id ? { ...item, status: 'done' } : item));
-  };
-
-  const uncheckItem = (id: number) => {
-    setItems(items.map(item => item.id === id ? { ...item, status: 'active' } : item));
-  };
-
-  const deleteItem = (id: number) => {
-    setItems(items.filter(item => item.id !== id));
-  };
-
-  const clearCompletedItems = () => {
-    setItems(items.filter(item => item.status !== 'done'));
   };
 
   return (
@@ -67,7 +58,7 @@ function App() {
           <div className={`${styles.card} rounded-lg p-4 flex items-center gap-4 shadow-lg`}>
             <div
               className={`w-5 h-5 rounded-full border-2 ${styles.inputBorder} flex items-center justify-center cursor-pointer transition-colors`}
-              onClick={addItem}
+              onClick={handleAddItem}
             >
               <span className={`${styles.addButton} text-sm font-bold leading-none`}>+</span>
             </div>
@@ -78,7 +69,7 @@ function App() {
               className={`${styles.text} ${styles.placeholder} flex-1 bg-transparent outline-none text-lg`}
               value={newItem}
               onChange={e => setNewItem(e.target.value)}
-              onKeyDown={e => { if (e.key === 'Enter') addItem(); }}
+              onKeyDown={e => { if (e.key === 'Enter') handleAddItem(); }}
             />
           </div>
         </div>
@@ -86,8 +77,7 @@ function App() {
         {/* Todo List */}
         <div className={`w-full max-w-md ${styles.card} rounded-lg shadow-lg overflow-hidden`}>
           <div className={`${styles.divide} divide-y`}>
-            {items
-              .filter(item => showItems === 'all' || item.status === showItems)
+            {getFilteredItems(showItems)
               .map(item => (
                 <TodoItem
                   key={item.id}
@@ -102,7 +92,7 @@ function App() {
 
           {/* Footer */}
           <div className={`p-4 flex items-center justify-between text-sm ${styles.textMuted} ${styles.border} border-t`}>
-            <span>{items.filter(item => item.status === 'active').length} items left</span>
+            <span>{getActiveCount()} items left</span>
 
             <FilterButtons 
               showItems={showItems} 
