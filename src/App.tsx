@@ -11,6 +11,7 @@ function App() {
 
       <div className="min-h-screen flex flex-col items-center pt-16 px-6">
 
+        {/* Input field */}
         <div className="w-full max-w-md mb-6">
           <div className="bg-gray-800 rounded-lg p-4 flex items-center gap-4">
             <div className="w-5 h-5 rounded-full border-2 border-gray-500"></div>
@@ -23,12 +24,21 @@ function App() {
         </div>
 
         <div className="w-full max-w-md bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-
+          {/* Todo items */}
           <div className="divide-y divide-gray-700">
 
+            {/* Completed todo */}
+            <div className="p-4 flex items-center gap-4 group hover:bg-gray-750">
+              <div className="w-5 h-5 rounded-full bg-gradient-to-br flex items-center justify-center">
+                <img src="/icon-check.svg" alt="Check" className="w-3 h-3" />
+              </div>
+              <span className="flex-1 text-gray-500 line-through">Item 1</span>
+            </div>
+
+            {/* Active todo */}
             <div className="p-4 flex items-center gap-4 group hover:bg-gray-750">
               <div className="w-5 h-5 rounded-full border-2 border-gray-500"></div>
-              <span className="flex-1 text-gray-300">item 1</span>
+              <span className="flex-1 text-gray-300">Item 2</span>
             </div>
           </div>
 
