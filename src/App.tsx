@@ -1,8 +1,27 @@
 import { useState, useContext } from 'react';
 import { ThemeContext } from './context/themeContext';
+import type { ITodoItem } from "./types";
+import TodoItem from './components/TodoItem';
 
 function App() {
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const [newItem, setNewItem] = useState("");
+  const [items, setItems] = useState<ITodoItem[]>([]);
+
+  const addItem = () => {
+    if (newItem.trim()) {
+      setItems([...items, { id: Date.now(), title: newItem, status: 'active' }]);
+      setNewItem("");
+    }
+  };
+
+  const checkItem = (id: number) => {
+    setItems(items.map(item => item.id === id ? { ...item, status: 'done' } : item));
+  };
+
+  const uncheckItem = (id: number) => {
+    setItems(items.map(item => item.id === id ? { ...item, status: 'active' } : item));
+  };
 
   return (
     <div
@@ -25,11 +44,15 @@ function App() {
         {/* Input field */}
         <div className="w-full max-w-md mb-6">
           <div className="bg-gray-800 rounded-lg p-4 flex items-center gap-4">
-            <div className="w-5 h-5 rounded-full border-2 border-gray-500"></div>
+            <div className="w-5 h-5 rounded-full border-2 border-gray-500"
+              onClick={addItem}></div>
             <input
               type="text"
+              id='new-item'
               placeholder="Create a new todo..."
               className="flex-1 bg-transparent text-gray-300 placeholder-gray-500 outline-none text-lg"
+              value={newItem}
+              onChange={e => setNewItem(e.target.value)}
             />
           </div>
         </div>
@@ -37,24 +60,12 @@ function App() {
         <div className="w-full max-w-md bg-gray-800 rounded-lg shadow-lg overflow-hidden">
           {/* Todo items */}
           <div className="divide-y divide-gray-700">
-
-            {/* Completed todo */}
-            <div className="p-4 flex items-center gap-4 group hover:bg-gray-750">
-              <div className="w-5 h-5 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
-                <img src="/icon-check.svg" alt="Check" className="w-3 h-3" />
-              </div>
-              <span className="flex-1 text-gray-500 line-through">Item 1</span>
-            </div>
-
-            {/* Active todo */}
-            <div className="p-4 flex items-center gap-4 group hover:bg-gray-750">
-              <div className="w-5 h-5 rounded-full border-2 border-gray-500"></div>
-              <span className="flex-1 text-gray-300">Item 2</span>
-            </div>
+            {items.map(item =>
+              <TodoItem key={item.id} item={item} checkItem={checkItem} uncheckItem={uncheckItem} />)}
           </div>
 
           <div className="p-4 flex items-center justify-between text-sm text-gray-500 border-t border-gray-700">
-            <span>2 items left</span>
+            <span>{items.length} items left</span>
             <div className="flex gap-4">
               <button className="text-blue-400 hover:text-white">All</button>
               <button className="hover:text-white">Active</button>
