@@ -17,6 +17,12 @@ function App() {
 
   const addItem = () => {
     if (newItem.trim()) {
+      const itemExists = items.some(item => item.title === newItem);
+      if (itemExists) {
+        alert("Item already exists");
+        return;
+      }
+
       setItems(prevItems => [
         ...prevItems,
         { id: Date.now(), title: newItem, status: 'active' }
