@@ -13,7 +13,7 @@ const TodoItem = ({ item, checkItem, uncheckItem, deleteItem }: ITodoItemProps) 
       <div className="hover:cursor-pointer">
 
         {item.status === 'done' ? <ItemCheck uncheckItem={uncheckItem} id={item.id} /> :
-          <div className="w-5 h-5 rounded-full border-2 border-gray-500"
+          <div className="w-5 h-5 rounded-full border-2 border-gray-500 hover:border-blue-400 transition-colors"
             onClick={() => checkItem(item.id)}></div>}
       </div>
       <div className={`flex-1 min-w-0 break-words pr-8 ${item.status === 'done' ? 'text-gray-500 line-through' : 'text-gray-300'}`}>
