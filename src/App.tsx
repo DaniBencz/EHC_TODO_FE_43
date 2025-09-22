@@ -5,9 +5,10 @@ import TodoItem from './components/TodoItem';
 
 const DELETE_ME: ITodoItem[] = [
   { id: 1, title: "Complete online JavaScript course", status: "done" },
+  { id: 1, title: "asdfasfdsagadfgsfdggadfdsafdagfgfdafdafdafdsafasfdsafdsafasdfadacdfadfa", status: "done" },
   { id: 2, title: "Jog around the park 3x", status: "active" },
   { id: 3, title: "10 minutes meditation", status: "active" },
-]
+];
 
 function App() {
   const { theme, toggleTheme } = useContext(ThemeContext);
@@ -75,6 +76,7 @@ function App() {
               className="flex-1 bg-transparent text-gray-300 placeholder-gray-500 outline-none text-lg"
               value={newItem}
               onChange={e => setNewItem(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') addItem(); }}
             />
           </div>
         </div>
