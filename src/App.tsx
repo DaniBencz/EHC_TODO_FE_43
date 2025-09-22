@@ -67,8 +67,12 @@ function App() {
 
         <div className="w-full max-w-md mb-6">
           <div className="bg-gray-800 rounded-lg p-4 flex items-center gap-4">
-            <div className="w-5 h-5 rounded-full border-2 border-gray-500"
-              onClick={addItem}></div>
+            <div
+              className="w-5 h-5 rounded-full border-2 border-gray-500 flex items-center justify-center cursor-pointer hover:border-blue-400 transition-colors"
+              onClick={addItem}
+            >
+              <span className="text-gray-400 text-sm font-bold leading-none">+</span>
+            </div>
             <input
               type="text"
               id='new-item'
