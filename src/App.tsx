@@ -5,9 +5,11 @@ import TodoItem from './components/TodoItem';
 
 const DELETE_ME: ITodoItem[] = [
   { id: 0, title: "Complete online JavaScript course", status: "done" },
-  { id: 1, title: "asdfasfdsagadfgsfdggadfdsafdagfgfdafdafdafdsafasfdsafdsafasdfadacdfadfa", status: "done" },
-  { id: 2, title: "Jog around the park 3x", status: "active" },
-  { id: 3, title: "10 minutes meditation", status: "active" },
+  { id: 1, title: "Jog around the park 3x", status: "active" },
+  { id: 2, title: "10 minutes meditation", status: "done" },
+  { id: 3, title: "Read for 1 hour", status: "active" },
+  { id: 4, title: "Pick up groceries", status: "active" },
+  { id: 5, title: "Complete Todo App on Frontend Mentor", status: "active" }
 ];
 
 function App() {
@@ -15,6 +17,26 @@ function App() {
   const [newItem, setNewItem] = useState("");
   const [items, setItems] = useState<ITodoItem[]>(DELETE_ME);
   const [showItems, setShowItems] = useState<TStatus | 'all'>('all');
+
+  const styles = {
+    background: theme === "dark" ? "bg-gray-900" : "bg-gray-100",
+    card: theme === "dark" ? "bg-gray-800" : "bg-white",
+    text: theme === "dark" ? "text-gray-300" : "text-gray-700",
+    textMuted: "text-gray-500",
+    placeholder: theme === "dark" ? "placeholder-gray-500" : "placeholder-gray-400",
+    border: theme === "dark" ? "border-gray-700" : "border-gray-200",
+    divide: theme === "dark" ? "divide-gray-700" : "divide-gray-200",
+    inputBorder: theme === "dark" ? "border-gray-500 hover:border-blue-400" : "border-gray-300 hover:border-blue-500",
+    hover: theme === "dark" ? "hover:text-white" : "hover:text-gray-800",
+    addButton: theme === "dark" ? "text-gray-400" : "text-gray-400"
+  };
+
+  const getFilterStyle = (filter: TStatus | 'all') => {
+    const isActive = showItems === filter;
+    const baseStyle = isActive ? "text-blue-500" : styles.textMuted;
+    const hoverStyle = isActive ? "" : styles.hover;
+    return `${baseStyle} ${hoverStyle} cursor-pointer`;
+  };
 
   const addItem = () => {
     if (newItem.trim()) {
@@ -50,34 +72,38 @@ function App() {
 
   return (
     <div
-      className="min-h-screen bg-gray-900 bg-top bg-no-repeat"
+      className={`min-h-screen ${styles.background} bg-top bg-no-repeat`}
       style={{
         backgroundImage: theme === "light" ? "url('/bg-desktop-light.jpg')" : "url('/bg-desktop-dark.jpg')"
       }}
     >
-
       <div className="min-h-screen flex flex-col items-center pt-16 px-6">
-
+        {/* Header */}
         <div className="w-full max-w-md flex justify-between items-center mb-8">
           <h1 className="text-white text-4xl font-bold tracking-[0.5em]">TODO</h1>
-          <div className="w-6 h-6 cursor-pointer hover:scale-120 transition-transform" onClick={toggleTheme}>
-            <img src={theme === "dark" ? "/icon-sun.svg" : "/icon-moon.svg"} alt="Toggle theme" className="w-full h-full" />
+          <div className="w-6 h-6 cursor-pointer hover:scale-110 transition-transform" onClick={toggleTheme}>
+            <img 
+              src={theme === "dark" ? "/icon-sun.svg" : "/icon-moon.svg"} 
+              alt="Toggle theme" 
+              className="w-full h-full" 
+            />
           </div>
         </div>
 
+        {/* Add Todo Input */}
         <div className="w-full max-w-md mb-6">
-          <div className="bg-gray-800 rounded-lg p-4 flex items-center gap-4">
+          <div className={`${styles.card} rounded-lg p-4 flex items-center gap-4 shadow-lg`}>
             <div
-              className="w-5 h-5 rounded-full border-2 border-gray-500 flex items-center justify-center cursor-pointer hover:border-blue-400 transition-colors"
+              className={`w-5 h-5 rounded-full border-2 ${styles.inputBorder} flex items-center justify-center cursor-pointer transition-colors`}
               onClick={addItem}
             >
-              <span className="text-gray-400 text-sm font-bold leading-none">+</span>
+              <span className={`${styles.addButton} text-sm font-bold leading-none`}>+</span>
             </div>
             <input
               type="text"
               id='new-item'
               placeholder="Create a new todo..."
-              className="flex-1 bg-transparent text-gray-300 placeholder-gray-500 outline-none text-lg"
+              className={`${styles.text} ${styles.placeholder} flex-1 bg-transparent outline-none text-lg`}
               value={newItem}
               onChange={e => setNewItem(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter') addItem(); }}
@@ -85,23 +111,44 @@ function App() {
           </div>
         </div>
 
-        <div className="w-full max-w-md bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-          <div className="divide-y divide-gray-700">
-            {items.filter(item => showItems === 'all' || item.status === showItems).map(item =>
-              <TodoItem key={item.id} item={item} checkItem={checkItem} uncheckItem={uncheckItem} deleteItem={deleteItem} />)}
+        {/* Todo List */}
+        <div className={`w-full max-w-md ${styles.card} rounded-lg shadow-lg overflow-hidden`}>
+          <div className={`${styles.divide} divide-y`}>
+            {items
+              .filter(item => showItems === 'all' || item.status === showItems)
+              .map(item => (
+                <TodoItem 
+                  key={item.id} 
+                  item={item} 
+                  checkItem={checkItem} 
+                  uncheckItem={uncheckItem} 
+                  deleteItem={deleteItem} 
+                />
+              ))
+            }
           </div>
 
-          <div className="p-4 flex items-center justify-between text-sm text-gray-500 border-t border-gray-700">
+          {/* Footer */}
+          <div className={`p-4 flex items-center justify-between text-sm ${styles.textMuted} ${styles.border} border-t`}>
             <span>{items.filter(item => item.status === 'active').length} items left</span>
+            
             <div className="flex gap-4">
-              <button className="text-blue-400 hover:text-white cursor-pointer" onClick={() => setShowItems('all')}>All</button>
-              <button className="hover:text-white cursor-pointer" onClick={() => setShowItems('active')}>Active</button>
-              <button className="hover:text-white cursor-pointer" onClick={() => setShowItems('done')}>Completed</button>
+              <button className={getFilterStyle('all')} onClick={() => setShowItems('all')}>
+                All
+              </button>
+              <button className={getFilterStyle('active')} onClick={() => setShowItems('active')}>
+                Active
+              </button>
+              <button className={getFilterStyle('done')} onClick={() => setShowItems('done')}>
+                Completed
+              </button>
             </div>
-            <button className="hover:text-white cursor-pointer" onClick={clearCompletedItems}>Clear Completed</button>
+            
+            <button className={`${styles.hover} cursor-pointer`} onClick={clearCompletedItems}>
+              Clear Completed
+            </button>
           </div>
         </div>
-
       </div>
     </div>
   );
