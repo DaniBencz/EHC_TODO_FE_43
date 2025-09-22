@@ -33,7 +33,11 @@ function App() {
     setItems(items.map(item => item.id === id ? { ...item, status: 'active' } : item));
   };
 
-  const clearCompleted = () => {
+  const deleteItem = (id: number) => {
+    setItems(items.filter(item => item.id !== id));
+  };
+
+  const clearCompletedItems = () => {
     setItems(items.filter(item => item.status !== 'done'));
   };
 
@@ -72,7 +76,7 @@ function App() {
         <div className="w-full max-w-md bg-gray-800 rounded-lg shadow-lg overflow-hidden">
           <div className="divide-y divide-gray-700">
             {items.filter(item => showItems === 'all' || item.status === showItems).map(item =>
-              <TodoItem key={item.id} item={item} checkItem={checkItem} uncheckItem={uncheckItem} />)}
+              <TodoItem key={item.id} item={item} checkItem={checkItem} uncheckItem={uncheckItem} deleteItem={deleteItem} />)}
           </div>
 
           <div className="p-4 flex items-center justify-between text-sm text-gray-500 border-t border-gray-700">
@@ -82,7 +86,7 @@ function App() {
               <button className="hover:text-white hover:cursor-pointer" onClick={() => setShowItems('active')}>Active</button>
               <button className="hover:text-white hover:cursor-pointer" onClick={() => setShowItems('done')}>Completed</button>
             </div>
-            <button className="hover:text-white hover:cursor-pointer" onClick={clearCompleted}>Clear Completed</button>
+            <button className="hover:text-white hover:cursor-pointer" onClick={clearCompletedItems}>Clear Completed</button>
           </div>
         </div>
 

@@ -12,4 +12,5 @@ export interface ITodoItemProps {
   item: ITodoItem;
   checkItem: TCheckItem;
   uncheckItem: TCheckItem;
+  deleteItem: TCheckItem;
 }

@@ -7,7 +7,7 @@ const ItemCheck = ({ uncheckItem, id }: { uncheckItem: TCheckItem, id: number })
   </div>
 );
 
-const TodoItem = ({ item, checkItem, uncheckItem }: ITodoItemProps) => {
+const TodoItem = ({ item, checkItem, uncheckItem, deleteItem }: ITodoItemProps) => {
   return (
     <div className="p-4 flex items-center gap-4 group hover:bg-gray-750 relative" key={item.id}>
       <div className="hover:cursor-pointer">
@@ -22,8 +22,8 @@ const TodoItem = ({ item, checkItem, uncheckItem }: ITodoItemProps) => {
       <img
         src="/icon-cross.svg"
         alt="Delete"
-        className="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
-        style={{ pointerEvents: 'auto' }}
+        className="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer pointer-events-auto"
+        onClick={() => deleteItem(item.id)}
       />
     </div>
   );
