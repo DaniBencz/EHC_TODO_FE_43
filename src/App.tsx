@@ -11,6 +11,14 @@ function App() {
 
       <div className="min-h-screen flex flex-col items-center pt-16 px-6">
 
+        {/* Header */}
+        <div className="w-full max-w-md flex justify-between items-center mb-8">
+          <h1 className="text-white text-4xl font-bold tracking-[0.5em]">TODO</h1>
+          <div className="w-6 h-6 cursor-pointer">
+            <img src="/icon-sun.svg" alt="Toggle theme" className="w-full h-full" />
+          </div>
+        </div>
+
         {/* Input field */}
         <div className="w-full max-w-md mb-6">
           <div className="bg-gray-800 rounded-lg p-4 flex items-center gap-4">
@@ -29,7 +37,7 @@ function App() {
 
             {/* Completed todo */}
             <div className="p-4 flex items-center gap-4 group hover:bg-gray-750">
-              <div className="w-5 h-5 rounded-full bg-gradient-to-br flex items-center justify-center">
+              <div className="w-5 h-5 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
                 <img src="/icon-check.svg" alt="Check" className="w-3 h-3" />
               </div>
               <span className="flex-1 text-gray-500 line-through">Item 1</span>
