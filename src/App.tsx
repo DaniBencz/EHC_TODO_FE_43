@@ -4,7 +4,7 @@ import type { ITodoItem, TStatus } from "./types";
 import TodoItem from './components/TodoItem';
 
 const DELETE_ME: ITodoItem[] = [
-  { id: 1, title: "Complete online JavaScript course", status: "done" },
+  { id: 0, title: "Complete online JavaScript course", status: "done" },
   { id: 1, title: "asdfasfdsagadfgsfdggadfdsafdagfgfdafdafdafdsafasfdsafdsafasdfadacdfadfa", status: "done" },
   { id: 2, title: "Jog around the park 3x", status: "active" },
   { id: 3, title: "10 minutes meditation", status: "active" },
@@ -92,13 +92,13 @@ function App() {
           </div>
 
           <div className="p-4 flex items-center justify-between text-sm text-gray-500 border-t border-gray-700">
-            <span>{items.length} items left</span>
+            <span>{items.filter(item => item.status === 'active').length} items left</span>
             <div className="flex gap-4">
-              <button className="text-blue-400 hover:text-white hover:cursor-pointer" onClick={() => setShowItems('all')}>All</button>
-              <button className="hover:text-white hover:cursor-pointer" onClick={() => setShowItems('active')}>Active</button>
-              <button className="hover:text-white hover:cursor-pointer" onClick={() => setShowItems('done')}>Completed</button>
+              <button className="text-blue-400 hover:text-white cursor-pointer" onClick={() => setShowItems('all')}>All</button>
+              <button className="hover:text-white cursor-pointer" onClick={() => setShowItems('active')}>Active</button>
+              <button className="hover:text-white cursor-pointer" onClick={() => setShowItems('done')}>Completed</button>
             </div>
-            <button className="hover:text-white hover:cursor-pointer" onClick={clearCompletedItems}>Clear Completed</button>
+            <button className="hover:text-white cursor-pointer" onClick={clearCompletedItems}>Clear Completed</button>
           </div>
         </div>
 
