@@ -23,12 +23,15 @@ export default function AddTodo({ onAdd }: AddTodoProps) {
   return (
     <div className="w-full max-w-md mb-6">
       <div className={`${styles.card} rounded-lg p-4 flex items-center gap-4 shadow-lg`}>
-        <div
-          className={`w-5 h-5 rounded-full border-2 ${styles.inputBorder} flex items-center justify-center cursor-pointer transition-colors`}
+        <button
+          className={`w-5 h-5 rounded-full border-2 ${styles.inputBorder} flex items-center justify-center cursor-pointer transition-colors p-0`}
           onClick={handleAddItem}
+          aria-label="Add new todo"
+          title="Add new todo (or press Enter)"
+          type="button"
         >
           <span className={`${styles.addButton} text-sm font-bold leading-none`}>+</span>
-        </div>
+        </button>
         <input
           type="text"
           id='new-item'
@@ -37,6 +40,7 @@ export default function AddTodo({ onAdd }: AddTodoProps) {
           value={newItem}
           onChange={e => setNewItem(e.target.value)}
           onKeyDown={e => { if (e.key === 'Enter') handleAddItem(); }}
+          aria-label="New todo input"
         />
       </div>
     </div>

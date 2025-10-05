@@ -16,6 +16,13 @@ interface TodoListProps {
   clearCompletedItems: () => void;
 }
 
+const EmptyTodoList = ({ textMutedStyle }: { textMutedStyle: string; }) => (
+  <div className={`p-8 text-center ${textMutedStyle}`}>
+    <p className="text-lg mb-2">✨ No todos yet!</p>
+    <p className="text-sm">Add a new todo above to get started.</p>
+  </div>
+);
+
 export default function TodoList({
   items,
   activeCount,
@@ -34,15 +41,19 @@ export default function TodoList({
       {/* Todo List */}
       <div className={`w-full max-w-md ${styles.card} rounded-lg shadow-lg overflow-hidden`}>
         <div className={`${styles.divide} divide-y`}>
-          {items.map(item => (
-            <TodoItem
-              key={item.id}
-              item={item}
-              checkItem={checkItem}
-              uncheckItem={uncheckItem}
-              deleteItem={deleteItem}
-            />
-          ))}
+          {items.length === 0 ? (
+            <EmptyTodoList textMutedStyle={styles.textMuted} />
+          ) : (
+            items.map(item => (
+              <TodoItem
+                key={item.id}
+                item={item}
+                checkItem={checkItem}
+                uncheckItem={uncheckItem}
+                deleteItem={deleteItem}
+              />
+            ))
+          )}
         </div>
 
         {/* Footer */}
@@ -55,7 +66,11 @@ export default function TodoList({
             className="hidden md:flex"
           />
 
-          <button className={`${styles.hover} cursor-pointer`} onClick={clearCompletedItems}>
+          <button
+            className={`${styles.hover} cursor-pointer border-0 p-0`}
+            onClick={clearCompletedItems}
+            aria-label="Clear all completed todos"
+          >
             Clear Completed
           </button>
         </div>

@@ -24,14 +24,29 @@ function FilterButtons({ showItems, onFilterChange, className = "" }: FilterButt
   };
 
   return (
-    <div className={`flex gap-4 ${className}`}>
-      <button className={getFilterStyle('all')} onClick={() => onFilterChange('all')}>
+    <div className={`flex gap-4 ${className}`} role="group" aria-label="Filter todos">
+      <button 
+        className={getFilterStyle('all')} 
+        onClick={() => onFilterChange('all')}
+        aria-label="Show all todos"
+        aria-pressed={showItems === 'all'}
+      >
         All
       </button>
-      <button className={getFilterStyle('active')} onClick={() => onFilterChange('active')}>
+      <button 
+        className={getFilterStyle('active')} 
+        onClick={() => onFilterChange('active')}
+        aria-label="Show active todos"
+        aria-pressed={showItems === 'active'}
+      >
         Active
       </button>
-      <button className={getFilterStyle('done')} onClick={() => onFilterChange('done')}>
+      <button 
+        className={getFilterStyle('done')}
+        onClick={() => onFilterChange('done')}
+        aria-label="Show completed todos"
+        aria-pressed={showItems === 'done'}
+      >
         Completed
       </button>
     </div>
