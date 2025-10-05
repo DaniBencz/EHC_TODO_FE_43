@@ -15,7 +15,7 @@ describe('useTodos hook', () => {
     expect(result.current.items).toHaveLength(1);
     expect(result.current.items[0].title).toBe('Buy groceries');
     expect(result.current.items[0].status).toBe('active');
-    expect(result.current.getActiveCount()).toBe(1);
+    expect(result.current.getActiveCount).toBe(1);
   });
 
   it('should mark a todo as complete', () => {
@@ -34,7 +34,7 @@ describe('useTodos hook', () => {
     });
 
     expect(result.current.items[0].status).toBe('done');
-    expect(result.current.getActiveCount()).toBe(0);
+    expect(result.current.getActiveCount).toBe(0);
   });
 
   it('should uncheck a completed todo', () => {
@@ -57,7 +57,7 @@ describe('useTodos hook', () => {
     });
 
     expect(result.current.items[0].status).toBe('active');
-    expect(result.current.getActiveCount()).toBe(1);
+    expect(result.current.getActiveCount).toBe(1);
   });
 
   it('should delete a todo item', () => {
@@ -76,6 +76,6 @@ describe('useTodos hook', () => {
     });
 
     expect(result.current.items).toHaveLength(0);
-    expect(result.current.getActiveCount()).toBe(0);
+    expect(result.current.getActiveCount).toBe(0);
   });
 });
