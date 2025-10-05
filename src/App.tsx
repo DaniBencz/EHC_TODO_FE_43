@@ -36,7 +36,7 @@ function App() {
 
         <TodoList
           items={getFilteredItems(showItems)}
-          activeCount={getActiveCount()}
+          activeCount={getActiveCount}
           showItems={showItems}
           onFilterChange={setShowItems}
           checkItem={checkItem}

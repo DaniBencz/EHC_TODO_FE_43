@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import type { ITodoItem, TStatus } from '../types';
 
 export const useTodos = () => {
@@ -48,13 +48,15 @@ export const useTodos = () => {
     setItems(prevItems => prevItems.filter(item => item.status !== 'done'));
   };
 
-  const getFilteredItems = (filter: TStatus | 'all') => {
-    return items.filter(item => filter === 'all' || item.status === filter);
-  };
+  const getFilteredItems = useMemo(() => {
+    return (filter: TStatus | 'all') => {
+      return items.filter(item => filter === 'all' || item.status === filter);
+    };
+  }, [items]);
 
-  const getActiveCount = () => {
+  const getActiveCount = useMemo(() => {
     return items.filter(item => item.status === 'active').length;
-  };
+  }, [items]);
 
   return {
     items,

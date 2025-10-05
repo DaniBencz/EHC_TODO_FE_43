@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, memo } from 'react';
 import { ThemeContext } from '../context/themeContext';
 import type { ITodoItemProps, TCheckItem } from "../types";
 
@@ -40,4 +40,4 @@ const TodoItem = ({ item, checkItem, uncheckItem, deleteItem }: ITodoItemProps) 
   );
 };
 
-export default TodoItem;
+export default memo(TodoItem);
